@@ -1,0 +1,15 @@
+{
+  "name": "naidcbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.6.0",
+    "naihelper.js": "ssh://git@github.com:fukhak/naiHelper.js.git"
+  },
+  "devDependencies": {
+    "eslint": "^8.27.0"
+  }
+}

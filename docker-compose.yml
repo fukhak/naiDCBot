@@ -1,0 +1,12 @@
+version: '3'
+services:
+  discordbot:
+    container_name: discord_bot
+    build: .
+    network_mode: bridge
+    restart: always
+    environment:
+      - CLIENTID=
+      - DISCORDTOKEN=
+      - NAIKEY=
+      - POINTLOCK=
