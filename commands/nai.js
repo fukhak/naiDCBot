@@ -75,7 +75,11 @@ module.exports = {
 			}
 			return option.setName('model')
 				.setDescription('Model for other training data or weight')
-		}),
+		
+		})
+		.addBooleanOption(option => 
+			option.setName('description')
+				.setDescription('Show image description')),
 	async execute(interaction) {
 		try {
 			var width = interaction.options.getInteger('width') ?? NaiHelper.persetLayout().get('np')[0];
@@ -121,7 +125,7 @@ module.exports = {
 				attachments.push(
 					new AttachmentBuilder(new Buffer.from(image.imagesBase64, "base64"), "image.png")
 				));
-			await interaction.editReply({ files: attachments });
+			await interaction.editReply({ files: attachments, content:  interaction.options.getBoolean('description') ? naiHelper.getDesctipion() : undefined});
 		} catch (error) {
 			await interaction.followup(error);
 		}
