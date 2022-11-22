@@ -9,6 +9,14 @@ module.exports = {
 		.setName('nai')
 		.setDescription('NovelAi private function')
 		.addSubcommand(subcommand =>
+			subcommand.setName('anlas')
+				.setDescription('check anlas')
+				.addBooleanOption(option =>
+					option.setName('public')
+						.setDescription('Show return information for anyone')
+				)
+		)
+		.addSubcommand(subcommand =>
 			subcommand.setName('image')
 				.setDescription('generate image')
 				.addStringOption((option) =>
@@ -86,6 +94,13 @@ module.exports = {
 		),
 	async execute(interaction) {
 		try {
+			if (interaction.options.getSubcommand() === 'anlas') {
+				var subscription = await NaiHelper.getSubscription(naiUser.token);
+				await interaction.reply({ 
+					content: 'Anlas: ' + (subscription.trainingStepsLeft.fixedTrainingStepsLeft + subscription.trainingStepsLeft.purchasedTrainingSteps).toString(),
+					ephemeral:  !interaction.options.getBoolean('public') ?? true
+				});
+			}
 			if (interaction.options.getSubcommand() === 'image') {
 				var width = interaction.options.getInteger('width') ?? NaiHelper.persetLayout().get('np')[0];
 				var height = interaction.options.getInteger('width') ?? NaiHelper.persetLayout().get('np')[1]
@@ -133,7 +148,8 @@ module.exports = {
 				await interaction.editReply({ files: attachments, content: interaction.options.getBoolean('description') ? naiHelper.getDesctipion() : undefined });
 			}
 		} catch (error) {
-			await interaction.followup(error);
+			console.log(error);
+			await interaction.followUp(error);
 		}
 
 	},
